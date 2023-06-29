@@ -1,0 +1,29 @@
+{
+    "DefaultTimezone": "Asia/Kolkata",
+    "Port": 8080,
+    "Mode": "debug",
+    "Databases": [
+        {
+            "Host": "",
+            "Port": "",
+            "User": "",
+            "Password": "",
+            "Name": "",
+            "IdleConnections": 0,
+            "OpenConnections": 50,
+            "Type": "read",
+            "SamplingRateInSeconds": 10
+        },
+        {
+            "Host": "",
+            "Port": "",
+            "User": "",
+            "Password": "",
+            "Name": "",
+            "IdleConnections": 0,
+            "OpenConnections": 50,
+            "Type": "read",
+            "SamplingRateInSeconds": 10
+        }
+    ]
+}
