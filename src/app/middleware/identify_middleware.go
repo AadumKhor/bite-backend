@@ -4,10 +4,11 @@ package middleware
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
+	// NOTE: Uncomment these for phone number validation (Option 2 testing)
+	// "fmt"
+	// "regexp"
 	"io/ioutil"
 	"net/http"
-	"regexp"
 
 	"github.com/AadumKhor/bitespeed-backend-task/src/pkg/models"
 	"github.com/gin-gonic/gin"
@@ -43,8 +44,12 @@ func ValidatePhoneNumber() gin.HandlerFunc {
 
 		// if phone number is not empty, check if it's valid with a regex
 		if identifyRequest.PhoneNumber != 0 {
-			phoneNumberStr := fmt.Sprintf("%d", identifyRequest.PhoneNumber)
-			ok, _ := regexp.MatchString(models.RegexPhone, phoneNumberStr)
+			// NOTE: Uncomment these to add phone number validation (Option 2 testing)
+			// phoneNumberStr := fmt.Sprintf("%d", identifyRequest.PhoneNumber)
+			// ok, _ := regexp.MatchString(models.RegexPhone, phoneNumberStr)
+
+			// NOTE: Comment this if you uncomment above 2 lines
+			ok := true
 			if !ok {
 				ctx.JSON(http.StatusBadRequest, models.GetIdentifyErrorMessage(models.ErrMessageInvalidPhoneNumber, trace))
 				ctx.Abort()

@@ -58,7 +58,7 @@ I have not worked with NodeJS in depth, hence the choice of going with Golang.
             ├── string.go
             └── timezone.go
 
-```
+````
 </details>
 
 `cmd` -> Contains the `main.go` file which would be used to generate the binary <br>
@@ -72,17 +72,39 @@ I have not worked with NodeJS in depth, hence the choice of going with Golang.
 
 ### Setup DB
 
-Before starting the app, it is important to setup the DB. Run the following command to start just the DB for some pre-liminary operations. 
+Before starting the app, it is important to setup the DB. Run the following command to start just the DB for some pre-liminary operations.
 
 ```bash
-make build.db
+make setup.db
+````
+
+This command would remove existing data structures (if any) related to previous table. It would drop existing table and therefore all data as well. Now you would have 2 options:
+
+1. Seed some test data (from problem statement doc itself) to the DB
+2. Start testing with random values
+
+Option 1 works for testing out scenarios given in the problem statement doc. To continue with that run the following command:
+
+```bash
+make seed.db
 ```
 
-This would start the DB in a detached state. You can use tools like DBeaver to connect to the DB using the username and password given in the config (see next section) <br> 
+This would add data to the contact table created before using setup.db command. The table should look as follows:
 
-To make DB ready for operations, we need to create the table and possibly seed some data in it for testing. 
+```text
+id|phone_number|email                   |linked_id|link_precedence|created_at             |updated_at             |deleted_at|
+--+------------+------------------------+---------+---------------+-----------------------+-----------------------+----------+
+ 1|123456      |lorraine@hillvalley.edu |         |primary        |2023-04-01 00:00:00.374|2023-04-01 00:00:00.374|          |
+ 2|123456      |mcfly@hillvalley.edu    |        1|secondary      |2023-04-20 05:30:00.110|2023-04-20 05:30:00.110|          |
+ 3|919191      |george@hillvalley.edu   |         |primary        |2023-04-11 00:00:00.374|2023-04-11 00:00:00.374|          |
+ 4|717171      |biffsucks@hillvalley.edu|         |primary        |2023-04-21 05:30:00.110|2023-04-21 05:30:00.110|          |
+```
 
-(Complete this section further)
+cURL requests for testing out scenarios shared in the doc are given in upcoming sections.
+
+#### NOTE
+
+To validate phone numbers, I have implemented a middleware called `identify_middleware.go` which validates given phone number against a regex. Since option 1 seeds data that would not pass through the validation, we need to make some changes to the file before we start testing. Open the mentioned file and follow the commands given as `NOTE` and trust the IDE to resolve errors. If that does not work, don't worry. You can proceed without phone number validation since it would work for both option 1 & 2.
 
 ### Starting `docker` containers
 
@@ -207,6 +229,105 @@ bitespeed-backend-task-app-1  | [GIN-debug] Listening and serving HTTP on :8080
 
 If it is any different, please reach out. It might be an issue that I have missed.
 
+### cURL requests
 
+#### Option 1 Testing
 
-## Miscellaneous
+If you are using data from the problem doc itself the following cURL requests can be used.
+
+<table>
+<tr>
+<td>
+
+```bash
+curl --location 'http://localhost:8080/identify' \
+--header 'Content-type: application/json' \
+--data-raw '{
+  "email": "mcfly@hillvalley.edu",
+  "phoneNumber": 123456
+}' | jq
+```
+
+</td>
+<td>
+
+```json
+{
+  "contact": {
+    "emails": ["lorraine@hillvalley.edu", "mcfly@hillvalley.edu"],
+    "phoneNumbers": ["123456"],
+    "primaryContactId": 1,
+    "secondaryContactIds": [2]
+  }
+}
+```
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+```bash
+curl --location 'http://localhost:8080/identify' \
+--header 'Content-type: application/json' \
+--data '{
+    "phoneNumber": 123456
+}' | jq
+```
+
+</td>
+<td>
+
+```json
+{
+  "contact": {
+    "emails": ["lorraine@hillvalley.edu", "mcfly@hillvalley.edu"],
+    "phoneNumbers": ["123456"],
+    "primaryContactId": 1,
+    "secondaryContactIds": [2]
+  }
+}
+```
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+```bash
+curl --location 'http://localhost:8080/identify' \
+--header 'Content-type: application/json' \
+--data-raw '{
+	"email": "random@hillvalley.edu",
+	"phoneNumber": 9988776655
+}' | jq
+```
+
+</td>
+<td>
+
+```json
+{
+  "contact": {
+    "emails": [
+      "random@hillvalley.edu"
+    ],
+    "phoneNumbers": [
+      "9988776655"
+    ],
+    "primaryContactId": 8,
+    "secondaryContactIds": []
+  }
+}
+```
+
+</td>
+</tr>
+</table>
+
+#### Option 2 Testing
+
+Modify the above given cURL requests to add your own data. I have used cURL but you can import any one of these in Postman and play with the API! 
+

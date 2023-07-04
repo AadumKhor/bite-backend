@@ -163,8 +163,8 @@ func (handler IdentifyHandler) Handle(ctx *gin.Context) {
 	}
 
 	// check if current data contains new information
-	newEmail := !utils.StringExistsInList(email, emails)
-	newPhone := !utils.StringExistsInList(phone, phoneNumbers)
+	newEmail := !utils.StringExistsInList(email, emails) && email != ""
+	newPhone := !utils.StringExistsInList(phone, phoneNumbers) && phone != ""
 
 	var secondaryContact *models.Contact
 	if newEmail || newPhone {
@@ -180,11 +180,11 @@ func (handler IdentifyHandler) Handle(ctx *gin.Context) {
 		secondaryContactIDs = append(secondaryContactIDs, int(secondaryContact.ID))
 	}
 
-	// add current information for response
+	// add current information for response only its not empty
 	if newEmail {
 		emails = append(emails, *secondaryContact.Email)
 	}
-	if newPhone {
+	if newPhone  {
 		phoneNumbers = append(phoneNumbers, *secondaryContact.PhoneNumber)
 	}
 
