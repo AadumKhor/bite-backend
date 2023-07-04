@@ -10,6 +10,7 @@ const (
 const (
 	ErrMessageInvalidRequest     = "Invalid request body"
 	ErrMessageInvalidPhoneNumber = "Invalid phone number"
+	ErrInternalServerError       = "Internal server error"
 )
 
 // Miscellaneous

@@ -3,4 +3,5 @@ SHELL := /bin/bash
 
 include makefiles/help.mk
 include makefiles/local.mk
+include makefiles/build.mk
 

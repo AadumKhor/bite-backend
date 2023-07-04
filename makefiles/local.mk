@@ -4,10 +4,11 @@
 .ONESHELL:
 
 executable:
-	@chmod +x ${CURIDIR}/scripts/*
+	@chmod +x ${CURDIR}/scripts/*
+	@chmod +x ${CURDIR}/makefiles/*
 
-local.server: watch-server ## Start server for local testing
-watch-server: 
+local.bite: watch-bite ## Start bite server for local testing
+watch-bite: 
 	nodemon --watch cmd/ \
 	--watch internal -e go --signal SIGKILL \
-	--exec "go run ./cmd/main.go || exit 1"
+	--exec "clear && go run ./cmd/main.go || exit 1"

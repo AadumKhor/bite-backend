@@ -8,7 +8,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"regexp"
-	"strings"
 
 	"github.com/AadumKhor/bitespeed-backend-task/src/pkg/models"
 	"github.com/gin-gonic/gin"
@@ -44,7 +43,7 @@ func ValidatePhoneNumber() gin.HandlerFunc {
 
 		// if phone number is not empty, check if it's valid with a regex
 		if identifyRequest.PhoneNumber != 0 {
-			phoneNumberStr := strings.Trim(strings.ReplaceAll(fmt.Sprintf("%v", identifyRequest.PhoneNumber), ".", ""), "0")
+			phoneNumberStr := fmt.Sprintf("%d", identifyRequest.PhoneNumber)
 			ok, _ := regexp.MatchString(models.RegexPhone, phoneNumberStr)
 			if !ok {
 				ctx.JSON(http.StatusBadRequest, models.GetIdentifyErrorMessage(models.ErrMessageInvalidPhoneNumber, trace))

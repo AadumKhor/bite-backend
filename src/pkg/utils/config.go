@@ -5,9 +5,11 @@ import (
 	"io/ioutil"
 )
 
+// DefaultConfigLocation is the default location for config file
 const DefaultConfigLocation = "./config/config.json"
 
 type (
+	// Config is the model that represents the JSON config for our project
 	Config struct {
 		DefaultTimezone string
 		Port            int
@@ -16,9 +18,10 @@ type (
 
 	}
 
+	// DatabaseConfig defines the config for our DB
 	DatabaseConfig struct {
 		Host                  string
-		Port                  string
+		Port                  int
 		User                  string
 		Password              string
 		Name                  string
@@ -29,6 +32,7 @@ type (
 	}
 )
 
+// LoadConfig reads the JSON file and parses it
 func (c *Config) LoadConfig() error {
 	defaultConfig, err := ioutil.ReadFile(DefaultConfigLocation)
 	if err != nil {
@@ -45,6 +49,7 @@ func (c *Config) LoadConfig() error {
 
 var config *Config
 
+// GetConfig obtains a single value for the config
 func GetConfig() (*Config, error) {
 	// singleton config check
 	if config == nil {
