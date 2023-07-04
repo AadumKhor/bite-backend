@@ -19,7 +19,7 @@ docker-compose-down:
 
 image.clear: remove-docker-compose-images ## Remove image to re-build from scratch
 remove-docker-compose-images: 
-	@sh -c "sudo docker image rm bitespeed-backend-task-app"
+	@sh -c "sudo docker image rm bitespeed-backend-task-app --force || true"
 
 build.db: build-db ## Starting just the DB in detached state
 build-db: 

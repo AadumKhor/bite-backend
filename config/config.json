@@ -4,7 +4,7 @@
     "Mode": "debug",
     "Databases": [
         {
-            "Host": "0.0.0.0",
+            "Host": "db",
             "Port": 5432,
             "User": "dbuser",
             "Password": "BitespeedTask!",
@@ -15,7 +15,7 @@
             "SamplingRateInSeconds": 10
         },
         {
-            "Host": "0.0.0.0",
+            "Host": "db",
             "Port": 5432,
             "User": "dbuser",
             "Password": "BitespeedTask!",
