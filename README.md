@@ -77,6 +77,7 @@ Before starting the app, it is important to setup the DB. Run the following comm
 ```bash
 make setup.db
 ````
+**Re-run the command if you get any error. If the error persists, it might be something I have missed. Please reach out.** <br>
 
 This command would remove existing data structures (if any) related to previous table. It would drop existing table and therefore all data as well. Now you would have 2 options:
 
@@ -145,7 +146,7 @@ Copy the following config (if different) to `config/config.json`
 Run the following command
 
 ```bash
-make build
+make run.all
 ```
 
 This would internally call `docker compose` and run both the app and the db. Keep in mind, this command would not detach the containers hence you would be able to see both application and DB logs. Ideal state of logs should be this:
@@ -154,7 +155,7 @@ This would internally call `docker compose` and run both the app and the db. Kee
   <summary>Ideal State of terminal logs</summary>
 
 ```bash
-❯ make build
+❯ make run.all
 Untagged: bitespeed-backend-task-app:latest
 Deleted: sha256:e248469c86219cf1f8f729d521fd69e263e16134630b7113949b31c02c263b35
 [+] Building 16.6s (17/17) FINISHED
